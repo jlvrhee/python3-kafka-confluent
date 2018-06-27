@@ -1,12 +1,10 @@
 FROM python:3-alpine
 MAINTAINER Jeroen van Rhee <jeroen.vanrhee@kpn.com>
 
-ENV LIBRDKAFKA_VERSION 0.9.5
-RUN curl -Lk -o /root/librdkafka-${LIBRDKAFKA_VERSION}.tar.gz https://github.com/edenhill/librdkafka/archive/v${LIBRDKAFKA_VERSION}.tar.gz && \
-    tar -xzf /root/librdkafka-${LIBRDKAFKA_VERSION}.tar.gz -C /root && \
-    cd /root/librdkafka-${LIBRDKAFKA_VERSION} && \
-    ./configure && make && make install && make clean && ./configure --clean && \
-    rm -rf /root/librdkafka-${LIBRDKAFKA_VERSION} /root/librdkafka-${LIBRDKAFKA_VERSION}.tar.gz
+RUN sed -i -e 's/v3\.4/edge/g' /etc/apk/repositories &&\
+    apk upgrade --update-cache --available &&\
+    apk add --no-cache librdkafka &&\
+    apk add --no-cache librdkafka-dev
 
 ENV CPLUS_INCLUDE_PATH /usr/local/include
 ENV LIBRARY_PATH /usr/local/lib
