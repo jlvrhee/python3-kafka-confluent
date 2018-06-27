@@ -3,6 +3,7 @@ MAINTAINER Jeroen van Rhee <jeroen.vanrhee@kpn.com>
 
 RUN sed -i -e 's/v3\.4/edge/g' /etc/apk/repositories &&\
     apk upgrade --update-cache --available &&\
+    apk add build-base &&\
     apk add --no-cache librdkafka &&\
     apk add --no-cache librdkafka-dev
 
